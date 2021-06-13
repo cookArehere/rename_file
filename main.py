@@ -5,20 +5,29 @@ import re
 
 if __name__ == '__main__':
 
+    path_for_pdf_file = PureWindowsPath("D:/admin/python/pdf-reader")
 
+    for i_file in Path(path_for_pdf_file).glob("*.pdf"):
 
-   for pdf_files in Path("pdf-reader").glob("*.pdf"):
+       pdf_file = PdfFileReader(str(i_file))
 
-       pdf_file = PdfFileReader(str(pdf_files))
+       page = pdf_file.getPage(0)
+       text = page.extractText()
 
-       with Path("pdf-reader", "text.txt").open(mode="a", encoding='utf-8') as text_file:
-           page = pdf_file.getPage(0)
-           text = page.extractText()
-           name_pdf = re.search(r"[S]?\w-\d\d\d[G]?", text)
-           text_file.write(f"{name_pdf[0]} \n")
-           pdf_files.rename(f"pdf-reader\{name_pdf[0]}.pdf")
+       name_pdf = re.search(r"[S]?\w-\d\d\d[G]?", text)
 
-       print("DONE: ", pdf_files)
+       if "E" in name_pdf[0]:
+           path_name_pdf = Path(path_for_pdf_file, "ERECTION PLATE", f"{name_pdf[0]}.pdf")
+           i_file.rename(path_name_pdf)
+       elif "SP" in name_pdf[0]:
+           path_name_pdf = Path(path_for_pdf_file, "SPESIAL PLATE", f"{name_pdf[0]}.pdf")
+           i_file.rename(path_name_pdf)
+       elif "P" in name_pdf[0]:
+           path_name_pdf = Path(path_for_pdf_file, "STANDART PLATE", f"{name_pdf[0]}.pdf")
+           i_file.rename(path_name_pdf)
+
+       print("DONE", name_pdf[0])
+
 
 
 
