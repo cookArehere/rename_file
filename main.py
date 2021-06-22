@@ -17,7 +17,7 @@ def renaming_pdf_file(path, dir, name):
             if re.findall(name, str(i)):
                 quantity += 1
 
-        path_name_pdf = Path(path, dir, f"{name}_{int(quantity) + 1}.pdf")
+        path_name_pdf = Path(path, dir, f"{name}_{int(quantity)}.pdf")
         i_file.rename(path_name_pdf)
 
 
