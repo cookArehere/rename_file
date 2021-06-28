@@ -2,11 +2,12 @@ from pathlib import *
 from PyPDF2 import PdfFileReader
 import re
 
+
 def renaming_pdf_file(path, dir, name):
 
     try:
         path_name_pdf = Path(path, dir, f"{name}.pdf")
-        i_file.rename(path_name_pdf)
+        return i_file.rename(path_name_pdf)
 
     except FileExistsError:
         order_list_same_file = list(Path(path, dir).glob("*.pdf"))
@@ -18,7 +19,7 @@ def renaming_pdf_file(path, dir, name):
                 quantity += 1
 
         path_name_pdf = Path(path, dir, f"{name}_{int(quantity)}.pdf")
-        i_file.rename(path_name_pdf)
+        return i_file.rename(path_name_pdf)
 
 
 if __name__ == '__main__':
@@ -32,7 +33,7 @@ if __name__ == '__main__':
        page = pdf_file.getPage(0)
        text = page.extractText()
 
-       name_pdf = re.search(r"[S]?\w-\d\d\d[G, AG, BG]?", text)
+       name_pdf = re.search(r"[S]?\w-\d\d\d[A, B]?[G]?", text)
 
        if "E" in name_pdf[0]:
            renaming_pdf_file(path_for_pdf_file, "ERECTION PLATE", name_pdf[0])
